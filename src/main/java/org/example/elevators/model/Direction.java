@@ -7,5 +7,17 @@ public enum Direction {
     Direction(int value) {
         this.value = value;
     }
+    public static Direction fromInt(int currentFloor, int targetFloor) {
+        if (currentFloor < targetFloor) {
+            return UP;
+        } else if (currentFloor > targetFloor) {
+            return DOWN;
+        } else {
+            return NONE;
+        }
+    }
 
+    public int getValue() {
+        return value;
+    }
 }
