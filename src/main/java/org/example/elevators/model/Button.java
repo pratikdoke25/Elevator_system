@@ -3,7 +3,7 @@ package org.example.elevators.model;
 import org.example.elevators.NoButtonWasPressed;
 
 import java.util.LinkedList;
-import java.util.Queue;
+
 
 public class Button {
     private final LinkedList<Direction> pressedButtons = new LinkedList<>();
@@ -29,22 +29,8 @@ public class Button {
     public boolean isPressed(Direction direction) {
         return pressedButtons.contains(direction);
     }
-
-    public void pressDown() {
-        clickButton(Direction.DOWN);
+    public LinkedList<Direction> getPressedButtons() {
+        return pressedButtons;
     }
-
-    public void pressUp() {
-        clickButton(Direction.UP);
-    }
-
-    public void resetUp() {
-        unclickButton(Direction.UP);
-    }
-
-    public void resetDown() {
-        unclickButton(Direction.DOWN);
-    }
-
 
 }

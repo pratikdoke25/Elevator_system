@@ -7,6 +7,7 @@ public enum Direction {
     Direction(int value) {
         this.value = value;
     }
+
     public static Direction fromInt(int currentFloor, int targetFloor) {
         if (currentFloor < targetFloor) {
             return UP;
@@ -19,5 +20,14 @@ public enum Direction {
 
     public int getValue() {
         return value;
+    }
+
+    @Override
+    public String toString() {
+        return switch (this) {
+            case UP -> "UP";
+            case DOWN -> "DOWN";
+            case NONE -> "NONE";
+        };
     }
 }

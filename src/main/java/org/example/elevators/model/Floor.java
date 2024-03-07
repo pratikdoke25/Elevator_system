@@ -62,4 +62,8 @@ public class Floor {
     public int getFloorNumber() {
         return floorNumber;
     }
+
+    public List<Person> getWaitingPeople() {
+        return waitingPeople;
+    }
 }

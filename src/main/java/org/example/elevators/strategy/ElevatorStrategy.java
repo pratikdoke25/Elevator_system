@@ -30,36 +30,45 @@ public class ElevatorStrategy {
         });
         queries = floorList.stream().map(floor -> new Query(floor.getButton().isPressed(Direction.UP), floor.getButton().isPressed(Direction.DOWN), floor.getFloorNumber())).collect(Collectors.toMap(Query::getFloor, Function.identity()));
         for (Elevator elevator : elevatorsContainingPeople) {
-            for (int i = elevator.getCurrentFloor(); i != elevator.getTargetFloor(); i += elevator.getDirection().getValue()) {
+            int i = elevator.getCurrentFloor();
+            while (true) {
                 queries.get(i).untag(elevator.getDirection());
+                i += elevator.getDirection().getValue();
+                if (i == elevator.getTargetFloor())
+                    queries.get(i).untagAll();
+                break;
             }
         }
+
         for (Elevator elevator : elevatorsEmpty) {
             int currentFloor = elevator.getCurrentFloor();
             int closestFloor = getFarthestFloorInSameDirection(currentFloor);
-            Direction direction = closestFloor > currentFloor ? Direction.UP : Direction.DOWN;
+            Direction direction;
+
             if (closestFloor == -1) {
                 closestFloor = getFarthestRequest(currentFloor);
                 if (closestFloor == -1) {
                     return; // ?
                 }
                 direction = closestFloor > currentFloor ? Direction.DOWN : Direction.UP;
-            }
+            } else
+                direction = closestFloor > currentFloor ? Direction.UP : Direction.DOWN;
+
             elevator.setTargetFloor(closestFloor);
-            untagAllInDirection(currentFloor, closestFloor, direction);
+            untagAllInDirection(closestFloor, currentFloor, direction); //elevator will go all the way to farthest request and then come back
         }
     }
 
     private int getFarthestFloorInSameDirection(int startingFloor) {
         int farthestFloorUp = -1;
-        for (int i = maxFloor; i >= startingFloor; i--) {
+        for (int i = maxFloor; i > startingFloor; i--) {
             if (queries.get(i).isUp()) {
                 farthestFloorUp = i;
                 break;
             }
         }
         int farthestFloorDown = -1;
-        for (int i = minFloor; i <= startingFloor; i++) {
+        for (int i = minFloor; i < startingFloor; i++) {
             if (queries.get(i).isDown()) {
                 farthestFloorDown = i;
                 break;
@@ -69,10 +78,12 @@ public class ElevatorStrategy {
     }
 
     private void untagAllInDirection(int startingFloor, int targetFloor, Direction direction) {
-        for (int i = startingFloor; i != targetFloor; i += direction.getValue()) {
-            queries.get(i).untag(direction);
+        while (true) {
+            queries.get(startingFloor).untag(direction);
+            if (startingFloor == targetFloor)
+                break;
+            startingFloor += direction.getValue();
         }
-        queries.get(targetFloor).untag(direction);
     }
 
     private int getFarthestRequest(int startingFloor) {

@@ -23,6 +23,10 @@ public class Query {
         else
             down = false;
     }
+    public void untagAll() {
+        up = false;
+        down = false;
+    }
     public boolean isUp() {
         return up;
     }

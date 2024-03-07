@@ -10,23 +10,28 @@ import java.util.List;
 import java.util.stream.IntStream;
 
 public class ElevatorController {
-    private final int floors;
-    private final int elevators;
+    private final int floorsNo;
+    private final int elevatorsNo;
     private List<Elevator> elevatorList;
     private List<Floor> floorList;
     private final ElevatorStrategy strategy;
 
     public ElevatorController(int floors, int elevators) {
-        this.floors = floors;
-        this.elevators = elevators;
-        strategy = new ElevatorStrategy(0, floors);
+        this.floorsNo = floors;
+        this.elevatorsNo = elevators;
+        strategy = new ElevatorStrategy(0, floors-1);
         createElevators();
         createFloors();
     }
 
     public void nextStep() {
         letPeopleLeaveElevator();
-        generatePeople();
+//        generatePeople();
+        floorList.get(0).addPerson(new Person(1));
+        floorList.get(1).addPerson(new Person(0)    );
+        floorList.get(2).addPerson(new Person(0));
+        floorList.get(2).addPerson(new Person(1));
+
         letPeopleEnterElevator();
         updateElevatorsTargetFloors();
         strategy.run(elevatorList, floorList);
@@ -34,18 +39,17 @@ public class ElevatorController {
     }
 
     private void letPeopleLeaveElevator() {
-        for (Elevator elevator : elevatorList) {
-            elevator.letPeopleLeave();
-        }
+        elevatorList.stream().filter(Elevator::isNotEmpty).forEach(Elevator::letPeopleLeave);
     }
 
     private void generatePeople() {
-        for (Floor floor : floorList) {
-            int onFloor = (int) (Math.random() * elevators);
-            IntStream.range(0, floors)
-                    .filter(f -> f != floor.getFloorNumber()).limit(onFloor)
-                    .forEach(f -> floor.addPerson(Person.generateNew(floors)));
-        }
+        floorList.stream().filter(temp -> Math.random() > 0)
+                .forEach(floor -> {
+                    int onFloor = (int) (Math.random() * elevatorsNo)+1;
+                    IntStream.range(0, floorsNo)
+                            .filter(f -> f != floor.getFloorNumber()).limit(onFloor)
+                            .forEach(f -> floor.addPerson(new Person(f)));
+                });
     }
 
     private void letPeopleEnterElevator() {
@@ -63,7 +67,8 @@ public class ElevatorController {
     }
 
     //updates target floor for each not empty elevator
-    private void updateElevatorsTargetFloors() {
+    private void updateElevatorsTargetFloors
+    () {
         elevatorList.stream().filter(Elevator::isNotEmpty).forEach(Elevator::updateTargetFloor);
     }
 
@@ -73,21 +78,21 @@ public class ElevatorController {
     }
 
     private void createElevators() {
-        elevatorList = new ArrayList<>(elevators);
-        for (int i = 0; i < elevators; i++) {
-            elevatorList.add(new Elevator(i, floors));
+        elevatorList = new ArrayList<>(elevatorsNo);
+        for (int i = 0; i < elevatorsNo; i++) {
+            elevatorList.add(new Elevator(i, floorsNo));
         }
     }
 
     private void createFloors() {
-        floorList = new ArrayList<>(floors);
-        for (int i = 0; i < floors; i++) {
+        floorList = new ArrayList<>(floorsNo);
+        for (int i = 0; i < floorsNo; i++) {
             floorList.add(new Floor(i));
         }
     }
 
-    public int getElevators() {
-        return elevators;
+    public int getElevatorsNo() {
+        return elevatorsNo;
     }
 
     public List<Elevator> getElevatorList() {
@@ -98,8 +103,8 @@ public class ElevatorController {
         return elevatorList.get(id);
     }
 
-    public int getFloors() {
-        return floors;
+    public int getFloorsNo() {
+        return floorsNo;
     }
 
     public List<Floor> getFloorList() {
