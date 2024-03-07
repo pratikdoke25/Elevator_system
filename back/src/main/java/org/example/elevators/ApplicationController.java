@@ -1,6 +1,5 @@
 package org.example.elevators;
 
-import org.example.elevators.model.Elevator;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
