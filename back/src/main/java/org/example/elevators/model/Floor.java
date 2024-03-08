@@ -4,16 +4,18 @@ import org.example.elevators.NoButtonWasPressed;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Stream;
 
 public class Floor {
     private final int floorNumber;
-    private List<Person> waitingPeople;
-
+    private List<Person> waitingUp;
+    private List<Person> waitingDown;
     private final Button button;
 
     public Floor(int floorNumber) {
         this.floorNumber = floorNumber;
-        this.waitingPeople = new LinkedList<>();
+        this.waitingDown = new LinkedList<>();
+        this.waitingUp = new LinkedList<>();
         this.button = new Button();
     }
 
@@ -26,9 +28,12 @@ public class Floor {
     }
 
     public void addPerson(Person person) {
-        if (waitingPeople.isEmpty())
-            clickButton(person.targetFloor() > getFloorNumber() ? Direction.UP : Direction.DOWN);
-        waitingPeople.add(person);
+        Direction direction = person.targetFloor() > getFloorNumber() ? Direction.UP : Direction.DOWN;
+        clickButton(direction);
+        switch (direction) {
+            case UP -> waitingUp.add(person);
+            case DOWN -> waitingDown.add(person);
+        }
     }
 
     public void letPeopleEnterElevator(Elevator elevator) {
@@ -42,21 +47,29 @@ public class Floor {
             }
         Direction elevatorDirection = elevator.getDirection();
         button.unclickButton(elevatorDirection);
-        List<Person> stillWaiting = new LinkedList<>();
-        for (Person person : waitingPeople) {
-            if (person.targetFloor() > getFloorNumber() && elevatorDirection == Direction.UP) {
-                elevator.addPerson(person);
-            } else if (person.targetFloor() < getFloorNumber() && elevatorDirection == Direction.DOWN) {
-                elevator.addPerson(person);
-            } else {
-                stillWaiting.add(person);
-            }
+        if (elevatorDirection == Direction.UP) {
+            elevator.addPerson(waitingUp);
+            waitingUp = new LinkedList<>();
+        } else if (elevatorDirection == Direction.DOWN) {
+            elevator.addPerson(waitingDown);
+            waitingDown = new LinkedList<>();
         }
-        waitingPeople = stillWaiting;
+//        List<Person> stillWaiting = new LinkedList<>();
+
+//        for (Person person : waitingPeople) {
+//            if (person.targetFloor() > getFloorNumber() && elevatorDirection == Direction.UP) {
+//                elevator.addPerson(person);
+//            } else if (person.targetFloor() < getFloorNumber() && elevatorDirection == Direction.DOWN) {
+//                elevator.addPerson(person);
+//            } else {
+//                stillWaiting.add(person);
+//            }
+//        }
+//        waitingPeople = stillWaiting;
     }
 
     public boolean hasPeopleWaiting() {
-        return !waitingPeople.isEmpty();
+        return !getWaitingPeople().isEmpty();
     }
 
     public int getFloorNumber() {
@@ -64,6 +77,14 @@ public class Floor {
     }
 
     public List<Person> getWaitingPeople() {
-        return waitingPeople;
+        return Stream.concat(waitingUp.stream(), waitingDown.stream()).toList();
+    }
+
+    public List<Person> getWaitingUp() {
+        return waitingUp;
+    }
+
+    public List<Person> getWaitingDown() {
+        return waitingDown;
     }
 }

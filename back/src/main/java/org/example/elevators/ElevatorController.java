@@ -7,7 +7,7 @@ import org.example.elevators.strategy.ElevatorStrategy;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.IntStream;
+import java.util.Random;
 
 public class ElevatorController {
     private final int floorsNo;
@@ -19,18 +19,18 @@ public class ElevatorController {
     public ElevatorController(int floors, int elevators) {
         this.floorsNo = floors;
         this.elevatorsNo = elevators;
-        strategy = new ElevatorStrategy(0, floors-1);
+        strategy = new ElevatorStrategy(0, floors - 1, 5);
         createElevators();
         createFloors();
     }
 
     public void nextStep() {
         letPeopleLeaveElevator();
-//        generatePeople();
-        floorList.get(0).addPerson(new Person(1));
-        floorList.get(1).addPerson(new Person(0)    );
-        floorList.get(2).addPerson(new Person(0));
-        floorList.get(2).addPerson(new Person(1));
+        generatePeople();
+//        floorList.get(0).addPerson(new Person(1));
+//        floorList.get(1).addPerson(new Person(0)    );
+//        floorList.get(2).addPerson(new Person(0));
+//        floorList.get(2).addPerson(new Person(1));
 
         letPeopleEnterElevator();
         updateElevatorsTargetFloors();
@@ -38,15 +38,16 @@ public class ElevatorController {
         moveElevators();
     }
 
+
     private void letPeopleLeaveElevator() {
-        elevatorList.stream().filter(Elevator::isNotEmpty).forEach(Elevator::letPeopleLeave);
+        elevatorList.forEach(Elevator::letPeopleLeave);
     }
 
     private void generatePeople() {
-        floorList.stream().filter(temp -> Math.random() > 0)
+        floorList.stream().filter(t -> Math.random() > 0.5)
                 .forEach(floor -> {
-                    int onFloor = (int) (Math.random() * elevatorsNo)+1;
-                    IntStream.range(0, floorsNo)
+                    int onFloor = (int) (Math.random() * elevatorsNo) + 1;
+                    new Random().ints(0, floorsNo)
                             .filter(f -> f != floor.getFloorNumber()).limit(onFloor)
                             .forEach(f -> floor.addPerson(new Person(f)));
                 });
@@ -67,14 +68,8 @@ public class ElevatorController {
     }
 
     //updates target floor for each not empty elevator
-    private void updateElevatorsTargetFloors
-    () {
-        elevatorList.stream().filter(Elevator::isNotEmpty).forEach(Elevator::updateTargetFloor);
-    }
-
-    private void handleEmptyElevators() {
-        List<Elevator> emptyElevators = elevatorList.stream().filter(e -> !e.isNotEmpty()).toList();
-
+    private void updateElevatorsTargetFloors() {
+        elevatorList.forEach(Elevator::updateTargetFloor);
     }
 
     private void createElevators() {

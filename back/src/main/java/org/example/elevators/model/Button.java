@@ -29,6 +29,7 @@ public class Button {
     public boolean isPressed(Direction direction) {
         return pressedButtons.contains(direction);
     }
+
     public LinkedList<Direction> getPressedButtons() {
         return pressedButtons;
     }

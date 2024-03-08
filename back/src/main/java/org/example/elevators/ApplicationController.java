@@ -16,6 +16,9 @@ public class ApplicationController {
     @CrossOrigin(origins = "http://localhost:5173")
     @PostMapping(value = "/step", produces = "application/json")
     public State nextStep() {
+        if (elevatorController == null) {
+            setup(new SetupInfo(10, 2));
+        }
         elevatorController.nextStep();
         return getState();
     }

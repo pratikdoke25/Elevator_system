@@ -4,43 +4,51 @@ import org.example.elevators.model.Direction;
 import org.example.elevators.model.Elevator;
 import org.example.elevators.model.Floor;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.function.Function;
-import java.util.stream.Collectors;
+import java.util.*;
 
 public class ElevatorStrategy {
     private final int minFloor;
     private final int maxFloor;
+    private final int criticalNoOfWaitingPeople;
     Map<Integer, Query> queries;
 
-    public ElevatorStrategy(int minFloor, int maxFloor) {
+    public ElevatorStrategy(int minFloor, int maxFloor, int criticalNoOfWaitingPeople) {
         this.minFloor = minFloor;
         this.maxFloor = maxFloor;
+        this.criticalNoOfWaitingPeople = criticalNoOfWaitingPeople;
     }
 
     public void run(List<Elevator> elevatorList, List<Floor> floorList) {
-        List<Elevator> elevatorsEmpty = new LinkedList<>();
+        List<Elevator> elevatorsWithoutTarget = new LinkedList<>();
         List<Elevator> elevatorsContainingPeople = new LinkedList<>();
         elevatorList.forEach(elevator -> {
             if (elevator.isNotEmpty())
                 elevatorsContainingPeople.add(elevator);
-            else elevatorsEmpty.add(elevator);
+            else
+                elevatorsWithoutTarget.add(elevator);
         });
-        queries = floorList.stream().map(floor -> new Query(floor.getButton().isPressed(Direction.UP), floor.getButton().isPressed(Direction.DOWN), floor.getFloorNumber())).collect(Collectors.toMap(Query::getFloor, Function.identity()));
+
+        PriorityQueue<Floor> criticalFloors = prepareQueries(floorList);
         for (Elevator elevator : elevatorsContainingPeople) {
             int i = elevator.getCurrentFloor();
+            Direction direction = elevator.getDirection();
             while (true) {
-                queries.get(i).untag(elevator.getDirection());
-                i += elevator.getDirection().getValue();
+                queries.get(i).untag(direction);
+                i += direction.getValue();
                 if (i == elevator.getTargetFloor())
                     queries.get(i).untagAll();
                 break;
             }
         }
+        if (elevatorsWithoutTarget.isEmpty())
+            return;
+        handleCritical(criticalFloors, elevatorsWithoutTarget);
 
-        for (Elevator elevator : elevatorsEmpty) {
+        handleElevatorsWithoutTarget(elevatorsWithoutTarget);
+    }
+
+    private void handleElevatorsWithoutTarget(List<Elevator> elevatorsWithoutTarget) {
+        for (Elevator elevator : elevatorsWithoutTarget) {
             int currentFloor = elevator.getCurrentFloor();
             int closestFloor = getFarthestFloorInSameDirection(currentFloor);
             Direction direction;
@@ -48,7 +56,7 @@ public class ElevatorStrategy {
             if (closestFloor == -1) {
                 closestFloor = getFarthestRequest(currentFloor);
                 if (closestFloor == -1) {
-                    return; // ?
+                    return;
                 }
                 direction = closestFloor > currentFloor ? Direction.DOWN : Direction.UP;
             } else
@@ -59,17 +67,49 @@ public class ElevatorStrategy {
         }
     }
 
+    private void handleCritical(PriorityQueue<Floor> criticalFloors, List<Elevator> elevatorsWithoutTarget) {
+        while (!criticalFloors.isEmpty()) {
+            var critical = criticalFloors.poll();
+            int currentFloor = critical.getFloorNumber();
+            Elevator closestElevator = getClosestElevator(currentFloor, elevatorsWithoutTarget);
+            if (closestElevator == null)
+                break;
+            Direction direction = currentFloor > closestElevator.getCurrentFloor() ? Direction.UP : Direction.DOWN;
+            elevatorsWithoutTarget.remove(closestElevator);
+            closestElevator.setTargetFloor(currentFloor);
+            untagAllInDirection(currentFloor, currentFloor, direction);
+        }
+    }
+
+    private Elevator getClosestElevator(int currentFloor, List<Elevator> elevatorsWithoutTarget) {
+        return elevatorsWithoutTarget.stream()
+                .min(Comparator.comparingInt(elevator -> Math.abs(elevator.getCurrentFloor() - currentFloor)))
+                .orElse(null);
+    }
+
+    private PriorityQueue<Floor> prepareQueries(List<Floor> floorList) {
+        queries = new HashMap<>(floorList.size());
+        PriorityQueue<Floor> criticalFloors = new PriorityQueue<>((f1, f2) -> f2.getWaitingPeople().size() - f1.getWaitingPeople().size());
+        for (Floor floor : floorList) {
+            if (floor.getWaitingPeople().size() > criticalNoOfWaitingPeople)
+                criticalFloors.add(floor);
+            queries.put(floor.getFloorNumber(), new Query(floor.getWaitingUp().size(),
+                    floor.getWaitingDown().size(), floor.getFloorNumber()));
+        }
+        return criticalFloors;
+    }
+
     private int getFarthestFloorInSameDirection(int startingFloor) {
         int farthestFloorUp = -1;
         for (int i = maxFloor; i > startingFloor; i--) {
-            if (queries.get(i).isUp()) {
+            if (queries.get(i).getWaitingUp()) {
                 farthestFloorUp = i;
                 break;
             }
         }
         int farthestFloorDown = -1;
         for (int i = minFloor; i < startingFloor; i++) {
-            if (queries.get(i).isDown()) {
+            if (queries.get(i).getWaitingDown()) {
                 farthestFloorDown = i;
                 break;
             }
@@ -77,12 +117,14 @@ public class ElevatorStrategy {
         return calcFarthestFloor(startingFloor, farthestFloorUp, farthestFloorDown);
     }
 
-    private void untagAllInDirection(int startingFloor, int targetFloor, Direction direction) {
+    private void untagAllInDirection(int from, int to, Direction direction) {
+        int i = from;
+        int step = to > from ? 1 : -1;
         while (true) {
-            queries.get(startingFloor).untag(direction);
-            if (startingFloor == targetFloor)
+            queries.get(i).untag(direction);
+            if (i == to)
                 break;
-            startingFloor += direction.getValue();
+            i += step;
         }
     }
 

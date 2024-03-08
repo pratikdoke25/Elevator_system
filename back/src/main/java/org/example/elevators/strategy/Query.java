@@ -3,13 +3,13 @@ package org.example.elevators.strategy;
 import org.example.elevators.model.Direction;
 
 public class Query {
-    private boolean up;
-    private boolean down;
+    private int waitingUp;
+    private int waitingDown;
     private final int floor;
 
-    public Query(boolean up, boolean down, int floor) {
-        this.up = up;
-        this.down = down;
+    public Query(int waitingUp, int waitingDown, int floor) {
+        this.waitingUp = waitingUp;
+        this.waitingDown = waitingDown;
         this.floor = floor;
     }
 
@@ -19,21 +19,33 @@ public class Query {
 
     public void untag(Direction direction) {
         if (direction == Direction.UP)
-            up = false;
+            untagUp();
         else
-            down = false;
+            untagDown();
     }
+
+    private void untagUp() {
+        waitingUp = 0;
+    }
+
+    private void untagDown() {
+        waitingDown = 0;
+    }
+
     public void untagAll() {
-        up = false;
-        down = false;
+        untagUp();
+        untagDown();
     }
-    public boolean isUp() {
-        return up;
+
+    public boolean getWaitingUp() {
+        return waitingUp > 0;
     }
-    public boolean isDown() {
-        return down;
+
+    public boolean getWaitingDown() {
+        return waitingDown > 0;
     }
+
     public boolean tagged() {
-        return up || down;
+        return getWaitingDown() || getWaitingUp();
     }
 }

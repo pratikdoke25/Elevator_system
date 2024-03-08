@@ -1,25 +1,25 @@
 package org.example.elevators.model;
 
 import java.util.List;
-import java.util.SortedSet;
-import java.util.TreeSet;
+import java.util.PriorityQueue;
+import java.util.Queue;
 
 public class Elevator {
     private final int id;
     private final int floors;
     private int currentFloor;
     private Integer targetFloor;
-    private final SortedSet<Person> people;
+    private final Queue<Person> people;
 
     public Elevator(int id, int floors) {
         this.id = id;
         this.floors = floors;
         this.currentFloor = 0;
         this.targetFloor = null;
-        people = new TreeSet<>((p1, p2) -> {
+        people = new PriorityQueue<>((p1, p2) -> {
             int d1 = Math.abs(p1.targetFloor() - currentFloor);
             int d2 = Math.abs(p2.targetFloor() - currentFloor);
-            return d1 - d2;
+            return d2 - d1;
         });
     }
 
@@ -38,8 +38,8 @@ public class Elevator {
         people.add(person);
     }
 
-    void addPerson(List<Person> people) {
-        this.people.addAll(people);
+    void addPerson(List<Person> newPeople) {
+        people.addAll(newPeople);
     }
 
     void moveUp() {
@@ -62,9 +62,10 @@ public class Elevator {
         this.targetFloor = targetFloor;
     }
 
+    //updates target floor to the farthest target floor of the people in the elevator
     public void updateTargetFloor() {
         if (isNotEmpty()) {
-            targetFloor = people.first().targetFloor();
+            targetFloor = people.peek().targetFloor();
         }
     }
 
@@ -73,14 +74,17 @@ public class Elevator {
     }
 
     public Direction getDirection() {
-        if (isNotEmpty())
-            return Direction.fromInt(currentFloor, people.first().targetFloor());
         if (targetFloor != null)
             return Direction.fromInt(currentFloor, targetFloor);
         return Direction.NONE;
     }
 
+    public List<Person> getPeople() {
+        return List.copyOf(people);
+    }
+
     public int getId() {
         return id;
     }
+
 }
