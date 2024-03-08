@@ -1,5 +1,13 @@
-import { Button, Center, HStack, Text, useDisclosure } from "@chakra-ui/react";
-import { createContext, useEffect, useState } from "react";
+import {
+  Button,
+  Center,
+  HStack,
+  StackDivider,
+  Text,
+  VStack,
+  useDisclosure,
+} from "@chakra-ui/react";
+import { createContext, useEffect, useRef, useState } from "react";
 import { Elevator, Floor, Setup, System } from "../SystemInterfaces";
 import { useElevatorSetter, useElevatorSetterType } from "../hooks/useElevatorSetter";
 import { usePost as CreatePost } from "../hooks/usePost";
@@ -13,7 +21,7 @@ export const ElevatorSetterContext = createContext(null as unknown as useElevato
 const post = CreatePost(baseUrl);
 
 function Root() {
-  const defaultSetup = { floors: 3, elevators: 2 } as Setup;
+  const defaultSetup = { floors: 6, elevators: 3 } as Setup;
   const [setup, setSetup] = useState(defaultSetup);
   const [elevators, setElevators] = useState([] as Elevator[]);
   const [floors, setFloors] = useState([] as Floor[]);
@@ -25,9 +33,12 @@ function Root() {
     return { elevators, floors };
   };
   const { isOpen, onOpen, onClose } = useDisclosure();
-
+  const loading = useRef(true);
   useEffect(() => {
-    post("/setup", setup).then(handleNewState).catch(console.error);
+    post("/setup", setup)
+      .then(handleNewState)
+      .catch(console.error)
+      .finally(() => (loading.current = false));
   }, [setup]);
   const newStep = () => {
     post("/step", {}).then(handleNewState).catch(console.error);
@@ -36,18 +47,21 @@ function Root() {
     <ElevatorSetterContext.Provider value={setElevator}>
       <SetupDialog isOpen={isOpen} onClose={onClose} setupState={setup} setSetup={setSetup} />
       <Center h={"100vh"}>
-        <HStack>
-          {Floors(floors)}
-          {elevators.map((elev, i) => (
-            <ElevatorLine key={i} elevator={elev} floors={floors} />
-          ))}
-        </HStack>
-        {elevators.length * floors.length > 0 ? (
-          <Button onClick={newStep}>Next Step</Button>
-        ) : (
-          <Text>"Loading..."</Text>
-        )}
-        <Button onClick={onOpen}>Setup</Button>
+        <VStack>
+          <HStack align="stretch" divider={<StackDivider />}>
+            {elevators.map((elev, i) => (
+              <ElevatorLine key={i} elevator={elev} floors={floors} />
+            ))}
+            {Floors(floors)}
+          </HStack>
+          {loading ? (
+            <HStack>
+              (<Button onClick={newStep}>Next Step</Button>)<Button onClick={onOpen}>Setup</Button>
+            </HStack>
+          ) : (
+            <Text>Loading...</Text>
+          )}
+        </VStack>
       </Center>
     </ElevatorSetterContext.Provider>
   );

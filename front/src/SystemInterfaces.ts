@@ -23,5 +23,10 @@ export interface Person {
   targetFloor: number;
 }
 export interface ButtonState {
-  pressedButtons: string[];
+  pressedButtons: Direction[];
+}
+export enum Direction {
+  UP = "UP",
+  DOWN = "DOWN",
+  NONE = "NONE",
 }

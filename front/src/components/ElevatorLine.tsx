@@ -1,40 +1,50 @@
-import { Button, VStack } from "@chakra-ui/react";
-import { useContext } from "react";
+import { StackDivider, VStack } from "@chakra-ui/react";
 import { Elevator, Floor } from "../SystemInterfaces";
-import { useMoveElevator } from "../hooks/useMoveElevator";
 import ElevatorBox from "./Elevator";
 import FloorBox from "./Floor";
-import { ElevatorSetterContext } from "./Root";
 
 function ElevatorLine({ elevator, floors }: { elevator: Elevator; floors: Floor[] }) {
-  const elevatorSetter = useContext(ElevatorSetterContext);
-  const moveElevator = useMoveElevator(elevatorSetter, floors.length);
+  // const elevatorSetter = useContext(ElevatorSetterContext);
+  // const moveElevator = useMoveElevator(elevatorSetter, floors.length);
   const floorNodes = floors
     .map((floor, i) => (
-      <FloorBox key={i}>{floor.floorNumber == elevator.currentFloor && <ElevatorBox />}</FloorBox>
+      <FloorBox key={i}>
+        {floor.floorNumber == elevator.currentFloor && (
+          <ElevatorBox peopleInside={elevator.people} />
+        )}
+      </FloorBox>
     ))
     .reverse();
   return (
-    <VStack>
+    <VStack divider={<StackDivider />}>
       {floorNodes}
-      <VStack>
-        <Button
-          onClick={() => {
-            moveElevator(elevator.id, elevator, 1);
-          }}
-        >
-          Up
-        </Button>
-        <Button
-          onClick={() => {
-            moveElevator(elevator.id, elevator, -1);
-          }}
-        >
-          Down
-        </Button>
-      </VStack>
+      {/* {Controls(moveElevator, elevator)} */}
     </VStack>
   );
 }
 
 export default ElevatorLine;
+
+// function Controls(
+//   moveElevator: (id: number, elevator: Elevator, direction: number) => void,
+//   elevator: Elevator
+// ) {
+//   return (
+//     <VStack>
+//       <Button
+//         onClick={() => {
+//           moveElevator(elevator.id, elevator, 1);
+//         }}
+//       >
+//         Up
+//       </Button>
+//       <Button
+//         onClick={() => {
+//           moveElevator(elevator.id, elevator, -1);
+//         }}
+//       >
+//         Down
+//       </Button>
+//     </VStack>
+//   );
+// }
