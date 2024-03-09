@@ -5,15 +5,21 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class ApplicationController {
     private ElevatorController elevatorController;
+    private final static String ORIGIN = "http://localhost:5173";
 
-    @CrossOrigin(origins = "http://localhost:5173")
+    @GetMapping("/")
+    public String index() {
+        return "Greetings from Spring Boot!";
+    }
+
+    @CrossOrigin(origins = ORIGIN)
     @PostMapping(value = "/setup", consumes = "application/json", produces = "application/json")
     public State setup(@RequestBody SetupInfo setup) {
         elevatorController = new ElevatorController(setup.floors(), setup.elevators());
         return getState();
     }
 
-    @CrossOrigin(origins = "http://localhost:5173")
+    @CrossOrigin(origins = ORIGIN)
     @PostMapping(value = "/step", produces = "application/json")
     public State nextStep() {
         if (elevatorController == null) {
@@ -23,7 +29,7 @@ public class ApplicationController {
         return getState();
     }
 
-    @CrossOrigin(origins = "http://localhost:5173")
+    @CrossOrigin(origins = ORIGIN)
     @GetMapping(value = "/state", produces = "application/json")
     public State getState() {
         return new State(elevatorController.getElevatorList(), elevatorController.getFloorList());

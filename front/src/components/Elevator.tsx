@@ -1,7 +1,5 @@
-import { Person } from "../SystemInterfaces";
-import FloorBox from "./Floor";
 import {
-  Box,
+  Center,
   Popover,
   PopoverArrow,
   PopoverBody,
@@ -15,6 +13,8 @@ import {
   Thead,
   Tr,
 } from "@chakra-ui/react";
+import { Person } from "../SystemInterfaces";
+import FloorBox from "./Floor";
 
 function ElevatorBox({ peopleInside }: { peopleInside: Person[] }) {
   const exitsOnFloorCount = peopleInside.reduce((acc, person) => {
@@ -49,7 +49,9 @@ function ElevatorBox({ peopleInside }: { peopleInside: Person[] }) {
     <FloorBox>
       <Popover trigger="hover">
         <PopoverTrigger>
-          <Box boxSize={"full"} bg={"pink"}></Box>
+          <Center boxSize={"full"} bg={"pink"}>
+            <div style={{ width: "2px", height: "100%", backgroundColor: "black" }}></div>
+          </Center>
         </PopoverTrigger>
         <PopoverContent>
           <PopoverArrow />
