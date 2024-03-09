@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class ApplicationController {
     private ElevatorController elevatorController;
-    private final static String ORIGIN = "http://localhost:5173";
+    private final static String ORIGIN = "http://localhost:5173/";
 
     @GetMapping("/")
     public String index() {
