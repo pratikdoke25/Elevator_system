@@ -5,22 +5,24 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class ApplicationController {
     private ElevatorController elevatorController;
-    private final static String ORIGIN = "http://localhost:5173/";
+    private final static String BASE = "/api";
+//    private final static String ORIGIN = "http://localhost:5173/";
+//    private final static String ORIGIN = "/**";
 
     @GetMapping("/")
     public String index() {
         return "Greetings from Spring Boot!";
     }
 
-    @CrossOrigin(origins = ORIGIN)
-    @PostMapping(value = "/setup", consumes = "application/json", produces = "application/json")
+//    @CrossOrigin(origins = ORIGIN)
+    @PostMapping(value = BASE+"/setup", consumes = "application/json", produces = "application/json")
     public State setup(@RequestBody SetupInfo setup) {
         elevatorController = new ElevatorController(setup.floors(), setup.elevators());
         return getState();
     }
 
-    @CrossOrigin(origins = ORIGIN)
-    @PostMapping(value = "/step", produces = "application/json")
+//    @CrossOrigin(origins = ORIGIN)
+    @PostMapping(value = BASE+"/step", produces = "application/json")
     public State nextStep() {
         if (elevatorController == null) {
             setup(new SetupInfo(10, 2));
@@ -29,8 +31,8 @@ public class ApplicationController {
         return getState();
     }
 
-    @CrossOrigin(origins = ORIGIN)
-    @GetMapping(value = "/state", produces = "application/json")
+//    @CrossOrigin(origins = ORIGIN)
+    @GetMapping(value = BASE+"/state", produces = "application/json")
     public State getState() {
         return new State(elevatorController.getElevatorList(), elevatorController.getFloorList());
     }

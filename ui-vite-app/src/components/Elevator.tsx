@@ -13,7 +13,7 @@ import {
   Thead,
   Tr,
 } from "@chakra-ui/react";
-import { Person } from "../SystemInterfaces";
+import { Person } from "../utils/SystemInterfaces";
 import FloorBox from "./Floor";
 
 function ElevatorBox({ peopleInside }: { peopleInside: Person[] }) {

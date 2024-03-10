@@ -1,4 +1,4 @@
-import { Elevator } from "../SystemInterfaces";
+import { Elevator } from "../utils/SystemInterfaces";
 import { useElevatorSetterType } from "./useElevatorSetter";
 
 export const useMoveElevator = (setter: useElevatorSetterType, floors: number) => {

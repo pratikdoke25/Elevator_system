@@ -1,4 +1,4 @@
-import { Elevator } from "../SystemInterfaces";
+import { Elevator } from "../utils/SystemInterfaces";
 
 export interface useElevatorSetterType {
   (id: number, elevatorLine: Elevator): void;

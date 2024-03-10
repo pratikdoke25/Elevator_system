@@ -1,5 +1,5 @@
 import { StackDivider, VStack } from "@chakra-ui/react";
-import { Elevator, Floor } from "../SystemInterfaces";
+import { Elevator, Floor } from "../utils/SystemInterfaces";
 import ElevatorBox from "./Elevator";
 import FloorBox from "./Floor";
 

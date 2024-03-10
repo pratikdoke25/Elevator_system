@@ -11,7 +11,7 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { useRef } from "react";
-import { Setup } from "../SystemInterfaces";
+import { Setup } from "../utils/SystemInterfaces";
 import NumberSelector from "./NumberSelector";
 
 function SetupDialog({

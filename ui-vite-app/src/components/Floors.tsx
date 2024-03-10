@@ -13,7 +13,7 @@ import {
 } from "@chakra-ui/react";
 import { FaRegArrowAltCircleDown, FaRegArrowAltCircleUp } from "react-icons/fa";
 import { FaPerson } from "react-icons/fa6";
-import { Direction, Floor } from "../SystemInterfaces";
+import { Direction, Floor } from "../utils/SystemInterfaces";
 import FloorBox from "./Floor";
 
 export default function Floors(floors: Floor[]) {

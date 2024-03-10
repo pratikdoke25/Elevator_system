@@ -8,7 +8,7 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { createContext, useEffect, useRef, useState } from "react";
-import { Elevator, Floor, Setup, System } from "../SystemInterfaces";
+import { Elevator, Floor, Setup, System } from "../utils/SystemInterfaces";
 import { useElevatorSetter, useElevatorSetterType } from "../hooks/useElevatorSetter";
 import { usePost as CreatePost } from "../hooks/usePost";
 import { url as baseUrl } from "../url";
@@ -40,6 +40,7 @@ function Root() {
       .catch(console.error)
       .finally(() => (loading.current = false));
   }, [setup]);
+
   const newStep = () => {
     post("/step", {}).then(handleNewState).catch(console.error);
   };
