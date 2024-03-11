@@ -1,5 +1,6 @@
 import {
   Box,
+  Flex,
   HStack,
   Icon,
   Popover,
@@ -19,10 +20,10 @@ import FloorBox from "./Floor";
 
 export default function Floors(floors: Floor[]) {
   return (
-    <VStack divider={<StackDivider />}>
+    <VStack divider={<StackDivider />} alignItems="start">
       {floors
         .map((floor, i) => (
-          <HStack ml={0} mr={"auto"} key={i} maxW={200}>
+          <HStack key={i}>
             <VStack>
               <Icon
                 as={FaRegArrowAltCircleUp}
@@ -38,21 +39,21 @@ export default function Floors(floors: Floor[]) {
                 {RomanNumerals[floor.floorNumber]}
               </Text>
             </FloorBox>
-            {floor.waitingPeople.map((person, i) => (
-              <Popover trigger="hover">
-                <PopoverTrigger>
-                  <Box>
+            <HStack>
+              {floor.waitingPeople.map((person, i) => (
+                <Popover trigger="hover">
+                  <PopoverTrigger>
                     <Icon key={i} as={FaPerson} />
-                  </Box>
-                </PopoverTrigger>
-                <PopoverContent whiteSpace={"nowrap"} maxW={"min-content"}>
-                  <PopoverArrow />
-                  <PopoverBody>
-                    <Text>Target: {person.targetFloor}</Text>
-                  </PopoverBody>
-                </PopoverContent>
-              </Popover>
-            ))}
+                  </PopoverTrigger>
+                  <PopoverContent whiteSpace={"nowrap"} maxW={"min-content"}>
+                    <PopoverArrow />
+                    <PopoverBody>
+                      <Text>Target: {person.targetFloor}</Text>
+                    </PopoverBody>
+                  </PopoverContent>
+                </Popover>
+              ))}
+            </HStack>
           </HStack>
         ))
         .reverse()}

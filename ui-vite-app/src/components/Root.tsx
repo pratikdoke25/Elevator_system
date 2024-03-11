@@ -1,6 +1,9 @@
 import {
   Box,
   Button,
+  Center,
+  Container,
+  Flex,
   HStack,
   Spacer,
   StackDivider,
@@ -22,7 +25,7 @@ export const ElevatorSetterContext = createContext(null as unknown as useElevato
 const post = CreatePost(baseUrl);
 
 function Root() {
-  const defaultSetup = { floors: 6, elevators: 3 } as Setup;
+  const defaultSetup = { floors: 10, elevators: 3 } as Setup;
   const [setup, setSetup] = useState(defaultSetup);
   const [elevators, setElevators] = useState([] as Elevator[]);
   const [floors, setFloors] = useState([] as Floor[]);
@@ -66,7 +69,7 @@ function Root() {
   return (
     <ElevatorSetterContext.Provider value={setElevator}>
       <SetupDialog isOpen={isOpen} onClose={onClose} setupState={setup} setSetup={setSetup} />
-      <Box bgGradient="linear(to-b, purple.200, blue.400)" minH={"100vh"} p={5}>
+      <Box bgGradient="linear(to-b, purple.200, blue.400)" minH={"100vh"} minW={"100vw"} p={"50px"}>
         <VStack>
           <Text
             as={"i"}
@@ -80,7 +83,7 @@ function Root() {
             Welcome to Elevators System
           </Text>
           <Spacer />
-          <HStack align="stretch" divider={<StackDivider />}>
+          <HStack divider={<StackDivider />}>
             {elevators.map((elev, i) => (
               <ElevatorLine key={i} elevator={elev} floors={floors} />
             ))}
