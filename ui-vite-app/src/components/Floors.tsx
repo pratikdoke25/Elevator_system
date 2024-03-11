@@ -1,4 +1,5 @@
 import {
+  Box,
   HStack,
   Icon,
   Popover,
@@ -44,7 +45,9 @@ export default function Floors({ floors }: { floors: Floor[] }) {
               {floor.waitingPeople.map((person, i) => (
                 <Popover trigger="hover">
                   <PopoverTrigger>
-                    <Icon key={i} as={FaPerson} />
+                    <Box>
+                      <Icon key={i} as={FaPerson} />
+                    </Box>
                   </PopoverTrigger>
                   <PopoverContent whiteSpace={"nowrap"} maxW={"min-content"}>
                     <PopoverArrow />
