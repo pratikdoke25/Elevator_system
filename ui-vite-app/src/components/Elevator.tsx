@@ -49,7 +49,7 @@ function ElevatorBox({ peopleInside }: { peopleInside: Person[] }) {
     <FloorBox>
       <Popover trigger="hover">
         <PopoverTrigger>
-          <Center boxSize={"full"} bg={"pink"}>
+          <Center boxSize={"full"} bg={"silver"}>
             <div style={{ width: "2px", height: "100%", backgroundColor: "black" }}></div>
           </Center>
         </PopoverTrigger>

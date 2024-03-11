@@ -1,12 +1,11 @@
 package org.example.elevators.model;
 
-import org.example.elevators.NoButtonWasPressed;
-
 import java.util.LinkedList;
 
 
-public record Button(LinkedList<Direction> pressedButtons) {
-    public Button(){
+public record Button(
+        LinkedList<Direction> pressedButtons) {
+    public Button() {
         this(new LinkedList<>());
     }
 

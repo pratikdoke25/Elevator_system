@@ -40,7 +40,7 @@ function SetupDialog({
                 <FormLabel>Floors</FormLabel>
                 <NumberSelector
                   value={setupState.floors}
-                  min={1}
+                  min={2}
                   max={20}
                   setValue={(value: number) => {
                     setSetup((prev: Setup) => ({ ...prev, floors: value }));

@@ -11,6 +11,7 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
+import "@fontsource/luxurious-roman";
 import { FaRegArrowAltCircleDown, FaRegArrowAltCircleUp } from "react-icons/fa";
 import { FaPerson } from "react-icons/fa6";
 import { Direction, Floor } from "../utils/SystemInterfaces";
@@ -25,15 +26,17 @@ export default function Floors(floors: Floor[]) {
             <VStack>
               <Icon
                 as={FaRegArrowAltCircleUp}
-                color={floor.button.pressedButtons.includes(Direction.UP) ? "green" : "gray"}
+                color={floor.button.pressedButtons.includes(Direction.UP) ? "gold" : "gray"}
               />
               <Icon
                 as={FaRegArrowAltCircleDown}
-                color={floor.button.pressedButtons.includes(Direction.DOWN) ? "green" : "gray"}
+                color={floor.button.pressedButtons.includes(Direction.DOWN) ? "gold" : "gray"}
               />
             </VStack>
             <FloorBox key={i}>
-              <Text>{RomanNumerals[floor.floorNumber]}</Text>
+              <Text fontWeight={"bold"} as={"i"} fontFamily={"Luxurious Roman"}>
+                {RomanNumerals[floor.floorNumber]}
+              </Text>
             </FloorBox>
             {floor.waitingPeople.map((person, i) => (
               <Popover trigger="hover">

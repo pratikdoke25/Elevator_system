@@ -35,9 +35,10 @@ public class ElevatorStrategy {
             while (true) {
                 queries.get(i).untag(direction);
                 i += direction.getValue();
-                if (i == elevator.getTargetFloor())
+                if (i == elevator.getTargetFloor()) {
                     queries.get(i).untagAll();
-                break;
+                    break;
+                }
             }
         }
         if (elevatorsWithoutTarget.isEmpty())
@@ -63,7 +64,7 @@ public class ElevatorStrategy {
                 direction = closestFloor > currentFloor ? Direction.UP : Direction.DOWN;
 
             elevator.setTargetFloor(closestFloor);
-            untagAllInDirection(closestFloor, currentFloor, direction); //elevator will go all the way to farthest request and then come back
+            untagAllInDirection(closestFloor, currentFloor, direction); //elevator will go all the way to the farthest request and then come back
         }
     }
 
