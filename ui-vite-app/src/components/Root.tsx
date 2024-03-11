@@ -22,7 +22,7 @@ export const ElevatorSetterContext = createContext(null as unknown as useElevato
 const post = CreatePost(baseUrl);
 
 function Root() {
-  const defaultSetup = { floors: 10, elevators: 3 } as Setup;
+  const defaultSetup = { floors: 8, elevators: 3 } as Setup;
   const [setup, setSetup] = useState(defaultSetup);
   const [elevators, setElevators] = useState([] as Elevator[]);
   const [floors, setFloors] = useState([] as Floor[]);
@@ -66,7 +66,7 @@ function Root() {
   return (
     <ElevatorSetterContext.Provider value={setElevator}>
       <SetupDialog isOpen={isOpen} onClose={onClose} setupState={setup} setSetup={setSetup} />
-      <Box bgGradient="linear(to-b, purple.200, blue.400)" minH={"100vh"} minW={"100vw"} p={"5px"}>
+      <Box bgGradient="linear(to-b, purple.200, blue.400)" minH={"100vh"} p={"5px"}>
         <VStack>
           <Text
             as={"i"}
