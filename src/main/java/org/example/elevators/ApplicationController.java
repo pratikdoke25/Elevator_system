@@ -23,10 +23,8 @@ public class ApplicationController {
 
 //    @CrossOrigin(origins = ORIGIN)
     @PostMapping(value = BASE+"/step", produces = "application/json")
-    public State nextStep() {
-        if (elevatorController == null) {
-            setup(new SetupInfo(10, 2));
-        }
+    public State nextStep(@RequestBody State currentState) {
+        elevatorController = new ElevatorController(currentState.floors(), currentState.elevators());
         elevatorController.nextStep();
         return getState();
     }

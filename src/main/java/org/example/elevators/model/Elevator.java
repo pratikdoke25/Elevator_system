@@ -1,7 +1,9 @@
 package org.example.elevators.model;
 
+import org.example.elevators.model.utils.PersonPriorityQueue;
+
+import java.util.LinkedList;
 import java.util.List;
-import java.util.PriorityQueue;
 import java.util.Queue;
 
 public class Elevator {
@@ -16,11 +18,16 @@ public class Elevator {
         this.floors = floors;
         this.currentFloor = 0;
         this.targetFloor = null;
-        people = new PriorityQueue<>((p1, p2) -> {
-            int d1 = Math.abs(p1.targetFloor() - currentFloor);
-            int d2 = Math.abs(p2.targetFloor() - currentFloor);
-            return d2 - d1;
-        });
+        people = new PersonPriorityQueue(currentFloor);
+    }
+    //for Jackson
+    public Elevator() {
+        this.id = 0;
+        this.floors = 0;
+        this.currentFloor = 0;
+        this.targetFloor = null;
+        people = new PersonPriorityQueue(currentFloor);
+
     }
 
     public void move() {
@@ -87,4 +94,7 @@ public class Elevator {
         return id;
     }
 
+    public int getFloors() {
+        return floors;
+    }
 }

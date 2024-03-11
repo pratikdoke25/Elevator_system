@@ -5,6 +5,7 @@ export const usePost = (baseUrl: string) => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
     };
+    console.log(baseUrl + url, requestOptions);
     return await fetch(baseUrl + url, requestOptions).then((resp) => resp.json());
   };
 };

@@ -24,6 +24,14 @@ public class ElevatorController {
         createFloors();
     }
 
+    public ElevatorController(List<Floor> floors, List<Elevator> elevators) {
+        this.floorsNo = floors.size();
+        this.elevatorsNo = elevators.size();
+        strategy = new ElevatorStrategy(0, floorsNo - 1, 5);
+        this.elevatorList = elevators;
+        this.floorList = floors;
+    }
+
     public void nextStep() {
         letPeopleLeaveElevator();
         generatePeople();

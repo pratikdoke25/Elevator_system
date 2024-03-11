@@ -19,6 +19,14 @@ public class Floor {
         this.button = new Button();
     }
 
+    //for Jackson
+    public Floor(){
+        this.floorNumber = 0;
+        this.waitingDown = new LinkedList<>();
+        this.waitingUp = new LinkedList<>();
+        this.button = new Button();
+    }
+
     public Button getButton() {
         return button;
     }

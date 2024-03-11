@@ -30,7 +30,7 @@ function Root() {
     console.log(elevators, floors);
     setElevators(elevators);
     setFloors(floors);
-    return { elevators, floors };
+    return { elevators, floors } as System;
   };
   const { isOpen, onOpen, onClose } = useDisclosure();
   const loading = useRef(true);
@@ -42,7 +42,16 @@ function Root() {
   }, [setup]);
 
   const newStep = () => {
-    post("/step", {}).then(handleNewState).catch(console.error);
+    const body = {
+      elevators,
+      floors: floors.map((floor) => {
+        return {
+          ...floor,
+          waitingPeople: [], // server does need it
+        };
+      }),
+    } as System;
+    post("/step", body).then(handleNewState).catch(console.error);
   };
   return (
     <ElevatorSetterContext.Provider value={setElevator}>

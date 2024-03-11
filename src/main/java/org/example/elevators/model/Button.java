@@ -5,8 +5,10 @@ import org.example.elevators.NoButtonWasPressed;
 import java.util.LinkedList;
 
 
-public class Button {
-    private final LinkedList<Direction> pressedButtons = new LinkedList<>();
+public record Button(LinkedList<Direction> pressedButtons) {
+    public Button(){
+        this(new LinkedList<>());
+    }
 
     public void clickButton(Direction direction) {
         if (!pressedButtons.contains(direction)) {
