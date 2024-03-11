@@ -11,7 +11,7 @@ public class ApplicationController {
 
     @GetMapping({"/", "/index.html"})
     public String index() {
-        return "index.html";
+        return "redirect:/index.html";
     }
 
 //    @CrossOrigin(origins = ORIGIN)
