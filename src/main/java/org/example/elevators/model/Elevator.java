@@ -21,7 +21,7 @@ public class Elevator {
     }
 
     //for Jackson
-    public Elevator() {
+    private Elevator() {
         this.id = 0;
         this.floors = 0;
         this.currentFloor = 0;
@@ -37,6 +37,14 @@ public class Elevator {
         }
     }
 
+    private void moveUp() {
+        currentFloor = Math.min(floors - 1, currentFloor + 1);
+    }
+
+    private void moveDown() {
+        currentFloor = Math.max(0, currentFloor - 1);
+    }
+
     public void letPeopleLeave() {
         people.removeIf(person -> person.targetFloor() == currentFloor);
     }
@@ -49,13 +57,6 @@ public class Elevator {
         people.addAll(newPeople);
     }
 
-    void moveUp() {
-        currentFloor = Math.min(floors - 1, currentFloor + 1);
-    }
-
-    void moveDown() {
-        currentFloor = Math.max(0, currentFloor - 1);
-    }
 
     public int getCurrentFloor() {
         return currentFloor;
@@ -65,7 +66,10 @@ public class Elevator {
         return targetFloor;
     }
 
-    public void setTargetFloor(Integer targetFloor) {
+    public void setTargetFloor(int targetFloor) {
+        if (targetFloor < 0 || targetFloor >= floors) {
+            throw new IllegalArgumentException("Target floor is out of range");
+        }
         this.targetFloor = targetFloor;
     }
 
@@ -81,9 +85,7 @@ public class Elevator {
     }
 
     public Direction getDirection() {
-        if (targetFloor != null)
-            return Direction.fromInt(currentFloor, targetFloor);
-        return Direction.NONE;
+        return Direction.fromInt(currentFloor, targetFloor);
     }
 
     public List<Person> getPeople() {

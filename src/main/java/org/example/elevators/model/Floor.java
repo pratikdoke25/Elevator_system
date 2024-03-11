@@ -18,7 +18,7 @@ public class Floor {
     }
 
     //for Jackson
-    public Floor() {
+    private Floor() {
         this.floorNumber = 0;
         this.waitingDown = new LinkedList<>();
         this.waitingUp = new LinkedList<>();
