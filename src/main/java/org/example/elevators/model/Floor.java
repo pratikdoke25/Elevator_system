@@ -1,16 +1,14 @@
 package org.example.elevators.model;
 
-import org.example.elevators.NoButtonWasPressed;
-
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Stream;
 
 public class Floor {
     private final int floorNumber;
+    private final Button button;
     private List<Person> waitingUp;
     private List<Person> waitingDown;
-    private final Button button;
 
     public Floor(int floorNumber) {
         this.floorNumber = floorNumber;
@@ -20,7 +18,7 @@ public class Floor {
     }
 
     //for Jackson
-    public Floor(){
+    public Floor() {
         this.floorNumber = 0;
         this.waitingDown = new LinkedList<>();
         this.waitingUp = new LinkedList<>();
@@ -62,18 +60,6 @@ public class Floor {
             elevator.addPerson(waitingDown);
             waitingDown = new LinkedList<>();
         }
-//        List<Person> stillWaiting = new LinkedList<>();
-
-//        for (Person person : waitingPeople) {
-//            if (person.targetFloor() > getFloorNumber() && elevatorDirection == Direction.UP) {
-//                elevator.addPerson(person);
-//            } else if (person.targetFloor() < getFloorNumber() && elevatorDirection == Direction.DOWN) {
-//                elevator.addPerson(person);
-//            } else {
-//                stillWaiting.add(person);
-//            }
-//        }
-//        waitingPeople = stillWaiting;
     }
 
     public boolean hasPeopleWaiting() {

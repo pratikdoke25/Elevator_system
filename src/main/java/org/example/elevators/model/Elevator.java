@@ -2,16 +2,15 @@ package org.example.elevators.model;
 
 import org.example.elevators.model.utils.PersonPriorityQueue;
 
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
 public class Elevator {
     private final int id;
     private final int floors;
+    private final Queue<Person> people;
     private int currentFloor;
     private Integer targetFloor;
-    private final Queue<Person> people;
 
     public Elevator(int id, int floors) {
         this.id = id;
@@ -20,6 +19,7 @@ public class Elevator {
         this.targetFloor = null;
         people = new PersonPriorityQueue(currentFloor);
     }
+
     //for Jackson
     public Elevator() {
         this.id = 0;

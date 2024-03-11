@@ -1,7 +1,9 @@
 import {
+  Box,
   Button,
   Center,
   HStack,
+  Spacer,
   StackDivider,
   Text,
   VStack,
@@ -56,8 +58,20 @@ function Root() {
   return (
     <ElevatorSetterContext.Provider value={setElevator}>
       <SetupDialog isOpen={isOpen} onClose={onClose} setupState={setup} setSetup={setSetup} />
-      <Center h={"100vh"}>
+      <Box bgGradient="linear(to-b, purple.200, blue.400)" minH={"100vh"} p={5}>
         <VStack>
+          <Text
+            as={"i"}
+            fontSize="5xl"
+            fontWeight="bold"
+            fontFamily={"sans-serif"}
+            mb={4}
+            bgGradient="linear(to-r, black, blue.400)"
+            bgClip="text"
+          >
+            Welcome to Elevators System
+          </Text>
+          <Spacer />
           <HStack align="stretch" divider={<StackDivider />}>
             {elevators.map((elev, i) => (
               <ElevatorLine key={i} elevator={elev} floors={floors} />
@@ -65,14 +79,15 @@ function Root() {
             {Floors(floors)}
           </HStack>
           {loading ? (
-            <HStack>
-              (<Button onClick={newStep}>Next Step</Button>)<Button onClick={onOpen}>Setup</Button>
+            <HStack mt={4}>
+              <Button onClick={newStep}>Next Step</Button>
+              <Button onClick={onOpen}>Setup</Button>
             </HStack>
           ) : (
             <Text>Loading...</Text>
           )}
         </VStack>
-      </Center>
+      </Box>
     </ElevatorSetterContext.Provider>
   );
 }
