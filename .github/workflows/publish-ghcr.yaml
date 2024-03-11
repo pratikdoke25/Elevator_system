@@ -12,6 +12,6 @@ jobs:
           - name: Build and push the image
             run: |
                 docker login --username reptilianeye --password ${{ secrets.GH_PAT }} ghcr.io
-                docker build . --tag ghcr.io/reptilianeye/elevators-ghcr:latest
-                docker push ghcr.io/reptilianeye/elevators-ghcr:latest
+                docker build . --tag ghcr.io/reptilianeye/elevators:latest
+                docker push ghcr.io/reptilianeye/elevators:latest
             
