@@ -10,9 +10,10 @@
 name: Publish Docker image
 
 on:
-  release:
-    types: [published]
-
+    push:
+      branches:
+        - 'main'
+  
 jobs:
   push_to_registries:
     name: Push Docker image to multiple registries
