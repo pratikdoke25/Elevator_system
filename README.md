@@ -78,7 +78,7 @@ The latest image is also available on [Github Packages](https://github.com/Repti
 
 The project is deployed to GCP using Cloud Run and Cloud Build. The deployment is automated using a Github Actions [(details)](.github/workflows/google-cloudrun-source.yml).
 
-The server is available at [https://elevators-ghcr-7z7z7z7zfq-uc.a.run.app](https://elevators-ghcr-7z7z7z7zfq-uc.a.run.app).
+The server is available at [Elevators System](elevatorssystem-uk6zzsnjeq-ey.a.run.app).
 
 ## Future Improvements
 

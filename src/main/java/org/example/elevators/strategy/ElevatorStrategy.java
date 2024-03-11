@@ -92,7 +92,7 @@ public class ElevatorStrategy {
         queries = new HashMap<>(floorList.size());
         PriorityQueue<Floor> criticalFloors = new PriorityQueue<>((f1, f2) -> f2.getWaitingPeople().size() - f1.getWaitingPeople().size());
         for (Floor floor : floorList) {
-            if (floor.getWaitingPeople().size() > criticalNoOfWaitingPeople)
+            if (floor.getWaitingPeople().size() > getCriticalNoOfWaitingPeople())
                 criticalFloors.add(floor);
             queries.put(floor.getFloorNumber(), new Query(floor.getWaitingUp().size(),
                     floor.getWaitingDown().size(), floor.getFloorNumber()));
@@ -127,6 +127,7 @@ public class ElevatorStrategy {
                 break;
             i += step;
         }
+        queries.get(to).untagAll();
     }
 
     private int getTheFarthestRequest(int startingFloor) {
@@ -155,4 +156,7 @@ public class ElevatorStrategy {
         return f2;
     }
 
+    public int getCriticalNoOfWaitingPeople() {
+        return criticalNoOfWaitingPeople;
+    }
 }
