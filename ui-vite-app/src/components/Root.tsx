@@ -12,17 +12,19 @@ import { createContext, useEffect, useRef, useState } from "react";
 import { useElevatorSetter, useElevatorSetterType } from "../hooks/useElevatorSetter";
 import { usePost as CreatePost } from "../hooks/usePost";
 import { url as baseUrl } from "../url";
-import { Elevator, Floor, Setup, System } from "../utils/SystemInterfaces";
+import { Elevator, Floor, Setup, System, UISetup } from "../utils/SystemInterfaces";
 import ElevatorLine from "./ElevatorLine";
 import Floors from "./Floors";
 import SetupDialog from "./SetupDialog";
 
 export const ElevatorSetterContext = createContext(null as unknown as useElevatorSetterType);
+export const UISetupContext = createContext({ romanLetters: true } as UISetup);
 
 const post = CreatePost(baseUrl);
 
 function Root() {
   const defaultSetup = { floors: 8, elevators: 3 } as Setup;
+  const [UISetup, setUISetup] = useState({ romanLetters: true } as UISetup);
   const [setup, setSetup] = useState(defaultSetup);
   const [elevators, setElevators] = useState([] as Elevator[]);
   const [floors, setFloors] = useState([] as Floor[]);
@@ -37,7 +39,7 @@ function Root() {
   const loading = useRef(true);
   // const running = useRef(false);
   useEffect(() => {
-    post("/setup", setup)
+    post("/setup", { ...setup, floors: setup.floors + 1 })
       .then(handleNewState)
       .catch(console.error)
       .finally(() => (loading.current = false));
@@ -65,45 +67,48 @@ function Root() {
   // };
   return (
     <ElevatorSetterContext.Provider value={setElevator}>
-      <SetupDialog isOpen={isOpen} onClose={onClose} setupState={setup} setSetup={setSetup} />
-      <Box bgGradient="linear(to-b, purple.200, blue.400)" minH={"100vh"} p={"5px"}>
-        <VStack>
-          <Text
-            as={"i"}
-            fontSize="5xl"
-            fontWeight="bold"
-            fontFamily={"sans-serif"}
-            mb={4}
-            bgGradient="linear(to-r, black, blue.400)"
-            bgClip="text"
-          >
-            Welcome to Elevators System
-          </Text>
-          <Spacer />
-          <HStack divider={<StackDivider />}>
-            {elevators.map((elev, i) => (
-              <ElevatorLine key={i} elevator={elev} floors={floors} />
-            ))}
-            {Floors(floors)}
-          </HStack>
-          {loading ? (
-            <HStack mt={4}>
-              {/* <Button
-                onClick={() => {
-                  running.current = !running.current;
-                  if (running.current) runAsSimulation();
-                }}
-              >
-                {!running.current ? "Run as Simulation" : "Stop"}
-              </Button> */}
-              <Button onClick={newStep}>Next Step</Button>
-              <Button onClick={onOpen}>Setup</Button>
+      <UISetupContext.Provider value={UISetup}>
+        <SetupDialog
+          isOpen={isOpen}
+          onClose={onClose}
+          setupState={setup}
+          setSetup={setSetup}
+          romanLetters={UISetup.romanLetters}
+          setRomanLetters={(value: boolean) =>
+            setUISetup((prev) => ({ ...prev, romanLetters: value }))
+          }
+        />
+        <Box bgGradient="linear(to-b, purple.200, blue.400)" minH={"100vh"} p={"5px"}>
+          <VStack>
+            <Text
+              as={"i"}
+              fontSize="5xl"
+              fontWeight="bold"
+              fontFamily={"sans-serif"}
+              mb={4}
+              bgGradient="linear(to-r, black, blue.400)"
+              bgClip="text"
+            >
+              Welcome to Elevators System
+            </Text>
+            <Spacer />
+            <HStack divider={<StackDivider />}>
+              {elevators.map((elev, i) => (
+                <ElevatorLine key={i} elevator={elev} floors={floors} />
+              ))}
+              <Floors floors={floors} />
             </HStack>
-          ) : (
-            <Text>Loading...</Text>
-          )}
-        </VStack>
-      </Box>
+            {loading ? (
+              <HStack mt={4}>
+                <Button onClick={newStep}>Next Step</Button>
+                <Button onClick={onOpen}>Setup</Button>
+              </HStack>
+            ) : (
+              <Text>Loading...</Text>
+            )}
+          </VStack>
+        </Box>
+      </UISetupContext.Provider>
     </ElevatorSetterContext.Provider>
   );
 }

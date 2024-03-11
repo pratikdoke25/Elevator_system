@@ -8,15 +8,18 @@ import {
   PopoverTrigger,
   StackDivider,
   Text,
-  VStack
+  VStack,
 } from "@chakra-ui/react";
 import "@fontsource/luxurious-roman";
 import { FaRegArrowAltCircleDown, FaRegArrowAltCircleUp } from "react-icons/fa";
 import { FaPerson } from "react-icons/fa6";
 import { Direction, Floor } from "../utils/SystemInterfaces";
 import FloorBox from "./Floor";
+import { useContext } from "react";
+import { UISetupContext } from "./Root";
 
-export default function Floors(floors: Floor[]) {
+export default function Floors({ floors }: { floors: Floor[] }) {
+  const { romanLetters } = useContext(UISetupContext);
   return (
     <VStack divider={<StackDivider />} alignItems="start">
       {floors
@@ -34,7 +37,7 @@ export default function Floors(floors: Floor[]) {
             </VStack>
             <FloorBox key={i}>
               <Text fontWeight={"bold"} as={"i"} fontFamily={"Luxurious Roman"}>
-                {RomanNumerals[floor.floorNumber]}
+                {romanLetters ? RomanNumerals[floor.floorNumber] : floor.floorNumber}
               </Text>
             </FloorBox>
             <HStack>

@@ -30,3 +30,7 @@ export enum Direction {
   DOWN = "DOWN",
   NONE = "NONE",
 }
+
+export interface UISetup {
+  romanLetters: boolean;
+}
