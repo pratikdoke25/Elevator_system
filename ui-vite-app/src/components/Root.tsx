@@ -66,7 +66,7 @@ function Root() {
   return (
     <ElevatorSetterContext.Provider value={setElevator}>
       <SetupDialog isOpen={isOpen} onClose={onClose} setupState={setup} setSetup={setSetup} />
-      <Box bgGradient="linear(to-b, purple.200, blue.400)" minH={"100vh"} minW={"100vw"} p={"50px"}>
+      <Box bgGradient="linear(to-b, purple.200, blue.400)" minH={"100vh"} minW={"100vw"} p={"5px"}>
         <VStack>
           <Text
             as={"i"}
