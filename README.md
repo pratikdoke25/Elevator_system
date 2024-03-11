@@ -88,7 +88,3 @@ The server is available at [https://elevators-ghcr-7z7z7z7zfq-uc.a.run.app](http
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-```
-
-```
