@@ -1,9 +1,6 @@
 import {
   Box,
   Button,
-  Center,
-  Container,
-  Flex,
   HStack,
   Spacer,
   StackDivider,
@@ -12,10 +9,10 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { createContext, useEffect, useRef, useState } from "react";
-import { Elevator, Floor, Setup, System } from "../utils/SystemInterfaces";
 import { useElevatorSetter, useElevatorSetterType } from "../hooks/useElevatorSetter";
 import { usePost as CreatePost } from "../hooks/usePost";
 import { url as baseUrl } from "../url";
+import { Elevator, Floor, Setup, System } from "../utils/SystemInterfaces";
 import ElevatorLine from "./ElevatorLine";
 import Floors from "./Floors";
 import SetupDialog from "./SetupDialog";

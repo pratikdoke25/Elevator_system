@@ -1,6 +1,4 @@
 import {
-  Box,
-  Flex,
   HStack,
   Icon,
   Popover,
@@ -10,7 +8,7 @@ import {
   PopoverTrigger,
   StackDivider,
   Text,
-  VStack,
+  VStack
 } from "@chakra-ui/react";
 import "@fontsource/luxurious-roman";
 import { FaRegArrowAltCircleDown, FaRegArrowAltCircleUp } from "react-icons/fa";
