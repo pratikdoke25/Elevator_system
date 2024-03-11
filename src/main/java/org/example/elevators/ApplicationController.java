@@ -1,5 +1,6 @@
 package org.example.elevators;
 
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
@@ -9,7 +10,7 @@ public class ApplicationController {
 //    private final static String ORIGIN = "http://localhost:5173/";
 //    private final static String ORIGIN = "/**";
 
-    @GetMapping({"/", "/index.html"})
+    @GetMapping("/" )
     public String index() {
         return "redirect:/index.html";
     }
