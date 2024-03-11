@@ -9,9 +9,9 @@ public class ApplicationController {
 //    private final static String ORIGIN = "http://localhost:5173/";
 //    private final static String ORIGIN = "/**";
 
-    @GetMapping("/")
+    @GetMapping({"/", "/index.html"})
     public String index() {
-        return "Greetings from Spring Boot!";
+        return "index.html";
     }
 
 //    @CrossOrigin(origins = ORIGIN)
