@@ -52,7 +52,7 @@ on:
 
 env:
   PROJECT_ID: elevatorssystem # TODO: update Google Cloud project id
-  SERVICE: ElevatorsSystem # TODO: update Cloud Run service name
+  SERVICE: elevatorssystem # TODO: update Cloud Run service name
   REGION: europe-west3 # TODO: update Cloud Run service region
 
 jobs:
