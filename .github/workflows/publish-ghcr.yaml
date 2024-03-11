@@ -5,13 +5,13 @@ on:
         branches:
             - main
 jobs:
-    build_and_publish:
-        runs-on: ubuntu-latest
-        steps:
-            - uses: actions/checkout@v3
-            - name: Build and push the image
-                run: |
-                    docker login --username reptilianeye --password ${{ secrets.GH_PAT }}
-                    docker build . --tag ghcr.io/reptilianeye/elevators-ghcr:latest
-                    docker push ghcr.io/reptilianeye/elevators-ghcr:latest
+  build_and_publish:
+      runs-on: ubuntu-latest
+      steps:
+          - uses: actions/checkout@v3
+          - name: Build and push the image
+            run: |
+                docker login --username reptilianeye --password ${{ secrets.GH_PAT }}
+                docker build . --tag ghcr.io/reptilianeye/elevators-ghcr:latest
+                docker push ghcr.io/reptilianeye/elevators-ghcr:latest
             
