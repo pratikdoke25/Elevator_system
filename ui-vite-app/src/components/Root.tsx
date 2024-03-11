@@ -35,6 +35,7 @@ function Root() {
   };
   const { isOpen, onOpen, onClose } = useDisclosure();
   const loading = useRef(true);
+  // const running = useRef(false);
   useEffect(() => {
     post("/setup", setup)
       .then(handleNewState)
@@ -54,6 +55,14 @@ function Root() {
     } as System;
     post("/step", body).then(handleNewState).catch(console.error);
   };
+  // const runAsSimulation = async () => {
+  //   (function myLoop() {
+  //     setTimeout(function () {
+  //       newStep();
+  //       if (running.current) myLoop(); //  decrement i and call myLoop again if i > 0
+  //     }, 2000);
+  //   })();
+  // };
   return (
     <ElevatorSetterContext.Provider value={setElevator}>
       <SetupDialog isOpen={isOpen} onClose={onClose} setupState={setup} setSetup={setSetup} />
@@ -79,6 +88,14 @@ function Root() {
           </HStack>
           {loading ? (
             <HStack mt={4}>
+              {/* <Button
+                onClick={() => {
+                  running.current = !running.current;
+                  if (running.current) runAsSimulation();
+                }}
+              >
+                {!running.current ? "Run as Simulation" : "Stop"}
+              </Button> */}
               <Button onClick={newStep}>Next Step</Button>
               <Button onClick={onOpen}>Setup</Button>
             </HStack>
