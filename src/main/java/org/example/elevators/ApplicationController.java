@@ -2,7 +2,7 @@ package org.example.elevators;
 
 import org.springframework.web.bind.annotation.*;
 
-@RestController
+@Controller
 public class ApplicationController {
     private ElevatorController elevatorController;
     private final static String BASE = "/api";
