@@ -1,7 +1,6 @@
 import {
   Box,
   Button,
-  Center,
   HStack,
   Spacer,
   StackDivider,
