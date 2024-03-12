@@ -78,7 +78,12 @@ function Root() {
             setUISetup((prev) => ({ ...prev, romanLetters: value }))
           }
         />
-        <Box bgGradient="linear(to-b, purple.200, blue.400)" minH={"100vh"} p={"5px"}>
+        <Box
+          bgGradient="linear(to-b, purple.200, blue.400)"
+          minH={"100vh"}
+          minW={"100vw"}
+          p={"5px"}
+        >
           <VStack>
             <Text
               as={"i"}
