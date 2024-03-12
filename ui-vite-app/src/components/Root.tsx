@@ -23,7 +23,7 @@ export const UISetupContext = createContext({ romanLetters: true } as UISetup);
 const post = CreatePost(baseUrl);
 
 function Root() {
-  const defaultSetup = { floors: 8, elevators: 3 } as Setup;
+  const defaultSetup = { floors: 8, elevators: 8 } as Setup;
   const [UISetup, setUISetup] = useState({ romanLetters: true } as UISetup);
   const [setup, setSetup] = useState(defaultSetup);
   const [elevators, setElevators] = useState([] as Elevator[]);
@@ -92,7 +92,11 @@ function Root() {
               Welcome to Elevators System
             </Text>
             <Spacer />
-            <HStack divider={<StackDivider />}>
+            <HStack
+              divider={<StackDivider />}
+              ml={`calc(40vw - ${setup.elevators * 25}px)`} // Adjust the multiplier value to increase or decrease the margin
+              mr={"auto"}
+            >
               {elevators.map((elev, i) => (
                 <ElevatorLine key={i} elevator={elev} floors={floors} />
               ))}

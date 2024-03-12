@@ -1,8 +1,9 @@
 import { Center } from "@chakra-ui/react";
 
 function FloorBox({ children }: { children: React.ReactNode }) {
+  const size = "50px";
   return (
-    <Center minH={12} h={12} minW={12} w={12} border={children ? `1px solid black` : ""}>
+    <Center minH={size} h={size} minW={size} w={size} border={children ? `1px solid black` : ""}>
       {children}
     </Center>
   );

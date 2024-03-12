@@ -41,7 +41,20 @@ export default function Floors({ floors }: { floors: Floor[] }) {
                 {romanLetters ? RomanNumerals[floor.floorNumber] : floor.floorNumber}
               </Text>
             </FloorBox>
-            <HStack>
+            <HStack
+              overflowX={"auto"}
+              maxW={"15vw"}
+              sx={{
+                "&::-webkit-scrollbar": {
+                  width: "16px",
+                  borderRadius: "8px",
+                  backgroundColor: `rgba(0, 0, 0, 0.05)`,
+                },
+                "&::-webkit-scrollbar-thumb": {
+                  backgroundColor: `rgba(0, 0, 0, 0.05)`,
+                },
+              }}
+            >
               {floor.waitingPeople.map((person, i) => (
                 <Popover trigger="hover">
                   <PopoverTrigger>
