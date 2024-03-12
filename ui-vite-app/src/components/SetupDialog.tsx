@@ -45,10 +45,12 @@ function SetupDialog({
               <FormControl variant="floating">
                 <FormLabel>Highest Floor</FormLabel>
                 <NumberSelector
-                  value={setupState.floors}
                   min={1}
                   max={20}
+                  value={setupState.floors}
                   setValue={(value: number) => {
+                    if (value < 1) value = 1;
+                    if (value > 20) value = 20;
                     setSetup((prev: Setup) => ({ ...prev, floors: value }));
                   }}
                 />
@@ -56,12 +58,14 @@ function SetupDialog({
               <FormControl>
                 <FormLabel>Elevators</FormLabel>
                 <NumberSelector
-                  value={setupState.elevators}
-                  setValue={(value: number) => {
-                    setSetup((prev: Setup) => ({ ...prev, elevators: value }));
-                  }}
                   min={1}
                   max={16}
+                  value={setupState.elevators}
+                  setValue={(value: number) => {
+                    if (value < 1) value = 1;
+                    if (value > 16) value = 16;
+                    setSetup((prev: Setup) => ({ ...prev, elevators: value }));
+                  }}
                 />
               </FormControl>
               <Switch
