@@ -47,8 +47,10 @@
 name: Deploy to Cloud Run from Source
 
 on:
-  push:
-    branches: [ "main" ]
+  workflow_run:
+    workflows: ["Docker Image CI for GHCR"]
+    types:
+      - completed
 
 env:
   PROJECT_ID: elevatorssystem # TODO: update Google Cloud project id
