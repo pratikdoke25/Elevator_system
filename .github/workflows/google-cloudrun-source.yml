@@ -52,6 +52,10 @@ on:
     types:
       - completed
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 env:
   PROJECT_ID: elevatorssystem # TODO: update Google Cloud project id
   SERVICE: elevatorssystem # TODO: update Cloud Run service name
