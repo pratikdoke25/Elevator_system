@@ -71,6 +71,8 @@ Then, to run the project with Docker, use the following command:
 docker run -p 8080:8080 elevators
 ```
 
+App will be available at [http://localhost:8080](http://localhost:8080).
+
 The latest image is also available on [Github Packages](https://github.com/ReptilianEye/ElevatorsSystem/pkgs/container/elevators-ghcr).
 
 ## Deployment
