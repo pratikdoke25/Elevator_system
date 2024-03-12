@@ -23,7 +23,7 @@ export const UISetupContext = createContext({ romanLetters: true } as UISetup);
 const post = CreatePost(baseUrl);
 
 function Root() {
-  const defaultSetup = { floors: 8, elevators: 8 } as Setup;
+  const defaultSetup = { floors: 8, elevators: 5 } as Setup;
   const [UISetup, setUISetup] = useState({ romanLetters: true } as UISetup);
   const [setup, setSetup] = useState(defaultSetup);
   const [elevators, setElevators] = useState([] as Elevator[]);
