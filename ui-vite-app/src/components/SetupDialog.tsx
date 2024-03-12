@@ -32,6 +32,10 @@ function SetupDialog({
   setRomanLetters: (value: boolean) => void;
 }) {
   const cancelRef = useRef(null);
+  const minElevators = 1;
+  const maxElevators = 16;
+  const minFloors = 1;
+  const maxFloors = 20;
   return (
     <AlertDialog isOpen={isOpen} leastDestructiveRef={cancelRef} onClose={onClose}>
       <AlertDialogOverlay>
@@ -45,12 +49,12 @@ function SetupDialog({
               <FormControl variant="floating">
                 <FormLabel>Highest Floor</FormLabel>
                 <NumberSelector
-                  min={1}
-                  max={20}
+                  min={minFloors}
+                  max={maxFloors}
                   value={setupState.floors}
                   setValue={(value: number) => {
-                    if (value < 1) value = 1;
-                    if (value > 20) value = 20;
+                    if (value < minFloors) value = minFloors;
+                    if (value > maxFloors) value = maxFloors;
                     setSetup((prev: Setup) => ({ ...prev, floors: value }));
                   }}
                 />
@@ -58,12 +62,12 @@ function SetupDialog({
               <FormControl>
                 <FormLabel>Elevators</FormLabel>
                 <NumberSelector
-                  min={1}
-                  max={16}
+                  min={minElevators}
+                  max={maxElevators}
                   value={setupState.elevators}
                   setValue={(value: number) => {
-                    if (value < 1) value = 1;
-                    if (value > 16) value = 16;
+                    if (value < minElevators) value = minElevators;
+                    if (value > maxElevators) value = maxElevators;
                     setSetup((prev: Setup) => ({ ...prev, elevators: value }));
                   }}
                 />
