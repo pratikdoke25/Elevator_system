@@ -94,7 +94,7 @@ function Root() {
             <Spacer />
             <HStack
               divider={<StackDivider />}
-              ml={`calc(40vw - ${setup.elevators * 25}px)`} // Adjust the multiplier value to increase or decrease the margin
+              ml={`calc(40vw - ${setup.elevators * 30}px)`} // Adjust the multiplier value to increase or decrease the margin
               mr={"auto"}
             >
               {elevators.map((elev, i) => (
