@@ -53,6 +53,7 @@ function SetupDialog({
                   max={maxFloors}
                   value={setupState.floors}
                   setValue={(value: number) => {
+                    if (isNaN(value)) value = minFloors;
                     if (value < minFloors) value = minFloors;
                     if (value > maxFloors) value = maxFloors;
                     setSetup((prev: Setup) => ({ ...prev, floors: value }));
@@ -66,6 +67,7 @@ function SetupDialog({
                   max={maxElevators}
                   value={setupState.elevators}
                   setValue={(value: number) => {
+                    if (isNaN(value)) value = minElevators;
                     if (value < minElevators) value = minElevators;
                     if (value > maxElevators) value = maxElevators;
                     setSetup((prev: Setup) => ({ ...prev, elevators: value }));
