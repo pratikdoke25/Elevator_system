@@ -28,8 +28,7 @@ The algorithm goes at follows:
 
 ## Technologies Used
 
-- Java 17
-- Spring Boot
+- Spring Boot (Java 17)
 - Vite (TypeScript)
 - Chakra UI
 - Docker
