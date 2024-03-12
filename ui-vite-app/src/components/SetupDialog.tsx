@@ -8,6 +8,7 @@ import {
   Button,
   FormControl,
   FormLabel,
+  Switch,
   VStack,
 } from "@chakra-ui/react";
 import { useRef } from "react";
@@ -19,11 +20,16 @@ function SetupDialog({
   onClose,
   setupState,
   setSetup,
+  romanLetters,
+
+  setRomanLetters,
 }: {
   isOpen: boolean;
   onClose: () => void;
   setupState: Setup;
   setSetup: (prevFunc: (prev: Setup) => Setup) => void;
+  romanLetters: boolean;
+  setRomanLetters: (value: boolean) => void;
 }) {
   const cancelRef = useRef(null);
   return (
@@ -35,9 +41,9 @@ function SetupDialog({
           </AlertDialogHeader>
 
           <AlertDialogBody>
-            <VStack>
+            <VStack align={"start"}>
               <FormControl variant="floating">
-                <FormLabel>Floors</FormLabel>
+                <FormLabel>Highest Floor</FormLabel>
                 <NumberSelector
                   value={setupState.floors}
                   min={1}
@@ -58,6 +64,14 @@ function SetupDialog({
                   max={16}
                 />
               </FormControl>
+              <Switch
+                isChecked={romanLetters}
+                onChange={(e) => setRomanLetters(e.target.checked)}
+                colorScheme="green"
+              >
+                {" "}
+                Roman Letters
+              </Switch>
             </VStack>
           </AlertDialogBody>
 

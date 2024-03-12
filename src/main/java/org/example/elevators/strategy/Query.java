@@ -3,9 +3,9 @@ package org.example.elevators.strategy;
 import org.example.elevators.model.Direction;
 
 public class Query {
+    private final int floor;
     private int waitingUp;
     private int waitingDown;
-    private final int floor;
 
     public Query(int waitingUp, int waitingDown, int floor) {
         this.waitingUp = waitingUp;

@@ -35,9 +35,10 @@ public class ElevatorStrategy {
             while (true) {
                 queries.get(i).untag(direction);
                 i += direction.getValue();
-                if (i == elevator.getTargetFloor())
+                if (i == elevator.getTargetFloor()) {
                     queries.get(i).untagAll();
-                break;
+                    break;
+                }
             }
         }
         if (elevatorsWithoutTarget.isEmpty())
@@ -54,7 +55,7 @@ public class ElevatorStrategy {
             Direction direction;
 
             if (closestFloor == -1) {
-                closestFloor = getFarthestRequest(currentFloor);
+                closestFloor = getTheFarthestRequest(currentFloor);
                 if (closestFloor == -1) {
                     return;
                 }
@@ -63,7 +64,7 @@ public class ElevatorStrategy {
                 direction = closestFloor > currentFloor ? Direction.UP : Direction.DOWN;
 
             elevator.setTargetFloor(closestFloor);
-            untagAllInDirection(closestFloor, currentFloor, direction); //elevator will go all the way to farthest request and then come back
+            untagAllInDirection(closestFloor, currentFloor, direction); //elevator will go all the way to the farthest request and then come back
         }
     }
 
@@ -91,7 +92,7 @@ public class ElevatorStrategy {
         queries = new HashMap<>(floorList.size());
         PriorityQueue<Floor> criticalFloors = new PriorityQueue<>((f1, f2) -> f2.getWaitingPeople().size() - f1.getWaitingPeople().size());
         for (Floor floor : floorList) {
-            if (floor.getWaitingPeople().size() > criticalNoOfWaitingPeople)
+            if (floor.getWaitingPeople().size() > getCriticalNoOfWaitingPeople())
                 criticalFloors.add(floor);
             queries.put(floor.getFloorNumber(), new Query(floor.getWaitingUp().size(),
                     floor.getWaitingDown().size(), floor.getFloorNumber()));
@@ -114,7 +115,7 @@ public class ElevatorStrategy {
                 break;
             }
         }
-        return calcFarthestFloor(startingFloor, farthestFloorUp, farthestFloorDown);
+        return calcTheFarthestFloor(startingFloor, farthestFloorUp, farthestFloorDown);
     }
 
     private void untagAllInDirection(int from, int to, Direction direction) {
@@ -126,27 +127,28 @@ public class ElevatorStrategy {
                 break;
             i += step;
         }
+        queries.get(to).untagAll();
     }
 
-    private int getFarthestRequest(int startingFloor) {
-        int farthestFloorUp = -1;
+    private int getTheFarthestRequest(int startingFloor) {
+        int theFarthestFloorUp = -1;
         for (int i = maxFloor; i >= startingFloor; i--) {
             if (queries.get(i).tagged()) {
-                farthestFloorUp = i;
+                theFarthestFloorUp = i;
                 break;
             }
         }
-        int farthestFloorDown = -1;
+        int theFarthestFloorDown = -1;
         for (int i = minFloor; i <= startingFloor; i++) {
             if (queries.get(i).tagged()) {
-                farthestFloorDown = i;
+                theFarthestFloorDown = i;
                 break;
             }
         }
-        return calcFarthestFloor(startingFloor, farthestFloorUp, farthestFloorDown);
+        return calcTheFarthestFloor(startingFloor, theFarthestFloorUp, theFarthestFloorDown);
     }
 
-    private int calcFarthestFloor(int starting, int f1, int f2) {
+    private int calcTheFarthestFloor(int starting, int f1, int f2) {
         if (f1 == -1) return f2;
         if (f2 == -1) return f1;
         if (Math.abs(f1 - starting) > Math.abs(f2 - starting))
@@ -154,4 +156,7 @@ public class ElevatorStrategy {
         return f2;
     }
 
+    public int getCriticalNoOfWaitingPeople() {
+        return criticalNoOfWaitingPeople;
+    }
 }

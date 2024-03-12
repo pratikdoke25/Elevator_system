@@ -8,7 +8,9 @@ public enum Direction {
         this.value = value;
     }
 
-    public static Direction fromInt(int currentFloor, int targetFloor) {
+    public static Direction fromInt(int currentFloor, Integer targetFloor) {
+        if (targetFloor == null)
+            return NONE;
         if (currentFloor < targetFloor) {
             return UP;
         } else if (currentFloor > targetFloor) {

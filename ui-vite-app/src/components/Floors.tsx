@@ -11,45 +11,66 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
+import "@fontsource/luxurious-roman";
 import { FaRegArrowAltCircleDown, FaRegArrowAltCircleUp } from "react-icons/fa";
 import { FaPerson } from "react-icons/fa6";
 import { Direction, Floor } from "../utils/SystemInterfaces";
 import FloorBox from "./Floor";
+import { useContext } from "react";
+import { UISetupContext } from "./Root";
 
-export default function Floors(floors: Floor[]) {
+export default function Floors({ floors }: { floors: Floor[] }) {
+  const { romanLetters } = useContext(UISetupContext);
   return (
-    <VStack divider={<StackDivider />}>
+    <VStack divider={<StackDivider />} alignItems="start">
       {floors
         .map((floor, i) => (
-          <HStack ml={0} mr={"auto"} key={i} maxW={200}>
+          <HStack key={i}>
             <VStack>
               <Icon
                 as={FaRegArrowAltCircleUp}
-                color={floor.button.pressedButtons.includes(Direction.UP) ? "green" : "gray"}
+                color={floor.button.pressedButtons.includes(Direction.UP) ? "gold" : "gray"}
               />
               <Icon
                 as={FaRegArrowAltCircleDown}
-                color={floor.button.pressedButtons.includes(Direction.DOWN) ? "green" : "gray"}
+                color={floor.button.pressedButtons.includes(Direction.DOWN) ? "gold" : "gray"}
               />
             </VStack>
             <FloorBox key={i}>
-              <Text>{RomanNumerals[floor.floorNumber]}</Text>
+              <Text fontWeight={"bold"} as={"i"} fontFamily={"Luxurious Roman"}>
+                {romanLetters ? RomanNumerals[floor.floorNumber] : floor.floorNumber}
+              </Text>
             </FloorBox>
-            {floor.waitingPeople.map((person, i) => (
-              <Popover trigger="hover">
-                <PopoverTrigger>
-                  <Box>
-                    <Icon key={i} as={FaPerson} />
-                  </Box>
-                </PopoverTrigger>
-                <PopoverContent whiteSpace={"nowrap"} maxW={"min-content"}>
-                  <PopoverArrow />
-                  <PopoverBody>
-                    <Text>Target: {person.targetFloor}</Text>
-                  </PopoverBody>
-                </PopoverContent>
-              </Popover>
-            ))}
+            <HStack
+              overflowX={"auto"}
+              maxW={"15vw"}
+              sx={{
+                "&::-webkit-scrollbar": {
+                  width: "16px",
+                  borderRadius: "8px",
+                  backgroundColor: `rgba(0, 0, 0, 0.05)`,
+                },
+                "&::-webkit-scrollbar-thumb": {
+                  backgroundColor: `rgba(0, 0, 0, 0.05)`,
+                },
+              }}
+            >
+              {floor.waitingPeople.map((person, i) => (
+                <Popover trigger="hover">
+                  <PopoverTrigger>
+                    <Box>
+                      <Icon key={i} as={FaPerson} />
+                    </Box>
+                  </PopoverTrigger>
+                  <PopoverContent whiteSpace={"nowrap"} maxW={"min-content"}>
+                    <PopoverArrow />
+                    <PopoverBody>
+                      <Text>Target: {person.targetFloor}</Text>
+                    </PopoverBody>
+                  </PopoverContent>
+                </Popover>
+              ))}
+            </HStack>
           </HStack>
         ))
         .reverse()}

@@ -12,9 +12,9 @@ import java.util.Random;
 public class ElevatorController {
     private final int floorsNo;
     private final int elevatorsNo;
+    private final ElevatorStrategy strategy;
     private List<Elevator> elevatorList;
     private List<Floor> floorList;
-    private final ElevatorStrategy strategy;
 
     public ElevatorController(int floors, int elevators) {
         this.floorsNo = floors;
@@ -35,11 +35,6 @@ public class ElevatorController {
     public void nextStep() {
         letPeopleLeaveElevator();
         generatePeople();
-//        floorList.get(0).addPerson(new Person(1));
-//        floorList.get(1).addPerson(new Person(0)    );
-//        floorList.get(2).addPerson(new Person(0));
-//        floorList.get(2).addPerson(new Person(1));
-
         letPeopleEnterElevator();
         updateElevatorsTargetFloors();
         strategy.run(elevatorList, floorList);
