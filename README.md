@@ -32,7 +32,8 @@ The algorithm goes at follows:
 - Vite (TypeScript)
 - Chakra UI
 - Docker
-- GCP (Cloud Run)
+- GCP (Cloud Run serverless platform)
+- Github Actions (CI/CD)
 
 ## Project Structure
 
@@ -40,6 +41,7 @@ The project is split into two parts:
 
 - Server: The server is a REST API that handles requests to the elevator system. It's built with Spring Boot.
 - Client: The client is a simple web interface that allows users to interact with the elevator system. It's built with [Vite](https://vitejs.dev/) and [Chakra UI](https://chakra-ui.com/). You can find the client code [here](/ui-vite-app).
+  The infrastructure is tailored for seamless integration with GCP Cloud Run serverless platform. On each 'next step' request, client sends current state of the elevators to the server and the server responds with the next state.
 
 ## Building and Running the Project Locally
 
@@ -84,7 +86,7 @@ The application is available at [Elevators System](https://elevatorssystem-uk6zz
 ## Future Improvements
 
 - Add more configuration options for the algorithm
-- Add more tests
+- Tailor the algorithm to better suit the needs of the system
 
 ## License
 
