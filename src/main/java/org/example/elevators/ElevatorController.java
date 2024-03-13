@@ -56,6 +56,7 @@ public class ElevatorController {
                 });
     }
 
+    
     private void letPeopleEnterElevator() {
         for (Floor floor : floorList) {
             for (Elevator elevator : elevatorList) {
