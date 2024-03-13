@@ -23,7 +23,7 @@ export const UISetupContext = createContext({ romanLetters: true } as UISetup);
 const post = CreatePost(baseUrl);
 
 function Root() {
-  const defaultSetup = { floors: 8, elevators: 8 } as Setup;
+  const defaultSetup = { floors: 8, elevators: 5 } as Setup;
   const [UISetup, setUISetup] = useState({ romanLetters: true } as UISetup);
   const [setup, setSetup] = useState(defaultSetup);
   const [elevators, setElevators] = useState([] as Elevator[]);
@@ -78,7 +78,12 @@ function Root() {
             setUISetup((prev) => ({ ...prev, romanLetters: value }))
           }
         />
-        <Box bgGradient="linear(to-b, purple.200, blue.400)" minH={"100vh"} p={"5px"}>
+        <Box
+          bgGradient="linear(to-b, purple.200, blue.400)"
+          minH={"100vh"}
+          minW={"100vw"}
+          p={"5px"}
+        >
           <VStack>
             <Text
               as={"i"}
