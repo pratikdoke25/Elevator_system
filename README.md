@@ -4,7 +4,7 @@ The system is built with Java and Spring Boot for the server and Vite and Chakra
 
 ## Aims of the Project
 
-The project aimed to develop a complete full-stack application, containerize it, and deploy it to the cloud. Additionally, it served as an opportunity to gain knowledge and experience with Spring Boot, Vite, Docker and GCP.
+The project aimed to develop a complete full-stack application, containerize it, and deploy it to the cloud. Additionally, it served as an opportunity to gain knowledge and experience with Spring Boot, Vite, Docker.
 
 ## About the Algorithm
 
